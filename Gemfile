@@ -30,4 +30,4 @@ end
 gem "http_parser.rb", :platforms => [:jruby]
 
 gem "webrick"
-gem "ffi"
+gem "ffi", "1.16"
