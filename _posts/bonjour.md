@@ -1,5 +1,7 @@
 ---
 layout: post
+title: Untitled
 ---
 
-# Bonjour
+# Bonjour![le chat]({{site.baseurl}}/media/IMG-20240622-WA0001.jpg)
+
