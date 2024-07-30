@@ -75,7 +75,7 @@ prose:
       - name: "categories"
         field:
           element: "hidden"
-          value: "blog"
+          value: "jekyll update"
 
     _posts/static:
       - name: "layout"
