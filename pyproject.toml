@@ -1,0 +1,17 @@
+[project]
+name = "lehy-github-io"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mistletoe>=1.4.0",
+    "google-auth-oauthlib>=1.2.1",
+    "structlog>=24.4.0",
+    "imageio>=2.35.1",
+    "pandas>=2.2.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
