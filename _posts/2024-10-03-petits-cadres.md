@@ -27,7 +27,7 @@ des profil de colline sur un morceau de sapin. J'ai coupé le sapin et
 assemblé un tout petit cadre pour une toute petite image. J'ai
 simplement collé les onglets sans renfort particulier ; j'ai dû
 essayer de coller et réajuster plusieurs fois : c'est très fragile si
-la contact dans un coin est imparfait. J'ai maintenu les cadres serrés
+le contact dans un coin est imparfait. J'ai maintenu les cadres serrés
 pendant le collage avec une ficelle et un tourniquet.
 
 ![](/media/petits-cadres-images/AD9-pzmdo-c8pUsnCeuHdgj4CZqYAUdoY2mDPLD4-5W2WWYM0jC6ykuNAoME6eViUh4lsPnWqeiPGAqsctWZUDJRIITq4bI3mw%3Dw800-h800.jpg)
