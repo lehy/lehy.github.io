@@ -27,10 +27,13 @@ Ce Noël Polpetta eut un an.
 ![](/media/tabourets-de-No-l-images/AD9-pzl0pDQlevoFSKCK5QXPjKWWSpCk-HTjFDrDa4NbclP0KnoVqfzlFWPIYiCq-q2F-BsePB0atqUX4iV8ZRGCEb-uXDOjdg%3Dw800-h800.jpg) 
 
 Le troisième était un petit tabouret, taille enfant, à trois
-pieds. L'assise est texturée à la gouge ; j'ai pensé aux tabourets de
-mon grand père (massifs, en chène, taillés à
-l'herminette). Contrairement à certains de ceux-ci il est bien
-stable. Il est pour ma soeur Anne et sa famille.
+pieds. L'assise est texturée à la gouge ; j'ai pensé aux
+[tabourets](https://www.galerie44.com/en/seatings/2425-jean-touret-coffee-table-in-oak-edition-ateliers-marolles-1960.html)
+de [mon grand père](https://www.jeantouret.fr/vie-e-oeuvre/mobilier/)
+([massifs, en chène, taillés à
+l'herminette](https://www.danke-galerie.com/produit/paire-de-tabourets-tripodes-rustiques-brutalistes-style-jean-touret-artisan-de-marolles-g588/)). Contrairement
+à certains de ceux-ci (les prototypes qui étaient dans sa cuisine) il
+est bien stable. Il est pour ma soeur Anne et sa famille.
 
  ![](/media/tabourets-de-No-l-images/AD9-pzk2o5igFqTOk1EO3A67je3KkTwVel7xUdv4shhoELOZUE66p_jlzedqq9m2TQBmz5fZRX_zgqEYQ2HCYGyFq7n4Gz4ExA%3Dw800-h800.jpg) 
 
