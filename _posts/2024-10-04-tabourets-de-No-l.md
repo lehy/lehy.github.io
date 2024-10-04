@@ -30,7 +30,7 @@ Le troisième était un petit tabouret, taille enfant, à trois
 pieds. L'assise est texturée à la gouge ; j'ai pensé aux
 [tabourets](https://www.galerie44.com/en/seatings/2425-jean-touret-coffee-table-in-oak-edition-ateliers-marolles-1960.html)
 de [mon grand père](https://www.jeantouret.fr/vie-e-oeuvre/mobilier/)
-([massifs, en chène, taillés à
+([massifs, en chêne, taillés à
 l'herminette](https://www.danke-galerie.com/produit/paire-de-tabourets-tripodes-rustiques-brutalistes-style-jean-touret-artisan-de-marolles-g588/)). Contrairement
 à certains de ceux-ci (les prototypes qui étaient dans sa cuisine) il
 est bien stable. Il est pour ma soeur Anne et sa famille.
