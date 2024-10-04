@@ -44,11 +44,25 @@ def guess_base_dir(images):
     return pathlib.Path().joinpath(*prefix)
 
 
+def find_media_directory():
+    return pathlib.Path(sys.argv[0]).parent / ".." / ".." / "media"
+
+
+def to_media(f):
+    return find_media_directory() / ".." / pathlib.Path(*f.parts[1:])
+
+
+def to_markdown_link(f):
+    parts = list(f.parts)
+    i = parts.index("media")
+    return pathlib.Path("/", *parts[i:]).resolve()
+
+
 def main(argv):
     if len(argv) < 2:
         log.error("usage: filter_images.py <album.md>")
         return
-    
+
     with open(argv[1], "r") as f:
         doc = mistletoe.Document(f)
     images = {
@@ -61,11 +75,13 @@ def main(argv):
         return
     image_dir = guess_base_dir(images)
     log.info("guessed image dir", image_dir=image_dir)
+
+    image_dir = to_media(image_dir)
+
     if not image_dir.is_dir():
         log.error("image directory does not exist", image_directory=image_dir)
         return
-    images_in_base_dir = {x for x in image_dir.iterdir() if x.is_file()}
-    missing_images = {x for x in images if not is_image(x)}
+    missing_images = {x for x in images if not is_image(to_media(x))}
     if missing_images:
         log.error(
             "some images in Markdown are not found",
@@ -73,6 +89,9 @@ def main(argv):
         )
         return
     log.info("all images in document were found on disk", n=len(images))
+    images_in_base_dir = {
+        to_markdown_link(x) for x in image_dir.iterdir() if x.is_file()
+    }
     images_to_delete = images_in_base_dir.difference(images)
     # images_ok = images_in_base_dir.intersection(images)
     # log.info("ok images", images=images_ok)

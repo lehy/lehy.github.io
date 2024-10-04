@@ -12,6 +12,7 @@ import urllib.parse
 import structlog
 import imageio.v3 as iio
 import sys
+import re
 
 log = structlog.get_logger("album2md")
 
@@ -37,6 +38,8 @@ def get_creds(
     if os.path.exists(token_file):
         creds = Credentials.from_authorized_user_file(token_file, scopes)
 
+    # This is broken, when the creds expire we get invalid grant and
+    # they are not refetched.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
@@ -50,7 +53,7 @@ def get_creds(
 
 
 def get_session():
-    creds = get_creds()
+    creds = get_creds(secrets_dir=pathlib.Path(sys.argv[0]).parent / ".." / ".." / "_secrets_")
     return AuthorizedSession(creds)
 
 
@@ -126,6 +129,7 @@ def get_album(sess, album_name):
             album_name=album_name,
             known_album_names=set(albums.keys()),
         )
+        raise
     return album_to_pandas(get_album_by_id(sess, album_id))
 
 
@@ -187,6 +191,20 @@ def download_image(session, image_directory, image_id, url, image_size):
     return image_file
 
 
+def find_media_directory():
+    return pathlib.Path(sys.argv[0]).parent / ".." / ".." / "media"
+
+
+def find_posts_directory():
+    return pathlib.Path(sys.argv[0]).parent / ".." / ".." / "_posts"
+
+
+def make_media_file_name(f):
+    parts = list(f.parts)
+    i = parts.index("media")
+    return pathlib.Path("/", *parts[i:])
+
+
 def output_markdown(
     session,
     album: pd.DataFrame,
@@ -199,10 +217,13 @@ def output_markdown(
     if max_days is not None:
         grouped = grouped[:max_days]
 
+    media_directory = find_media_directory()
+    posts_directory = find_posts_directory()
+
     image_directory = pathlib.Path(image_directory)
     log.info("using image directory", image_directory=image_directory)
 
-    with open(md_file, "w") as out:
+    with open(posts_directory / md_file, "w") as out:
         for day in grouped:
             day_date = day["date"]
             day_date_s = day_date.strftime("%A %d %B %Y")
@@ -215,11 +236,14 @@ def output_markdown(
                 for shot in scene["shots"]:
                     image_file = download_image(
                         session,
-                        image_directory,
+                        media_directory / image_directory,
                         shot["id"],
                         shot["baseUrl"],
                         image_size,
                     )
+                    # The link should point to /media/image_directory/12345.jpg
+                    # while the image was saved to something like "../media/image_directory/12345.jpg"
+                    image_file = make_media_file_name(image_file)
                     encoded_image_file = urllib.parse.quote(str(image_file), safe="/")
                     out.write(f"![]({encoded_image_file}) ")
 
@@ -227,7 +251,12 @@ def output_markdown(
 def output_article(album_name):
     session = get_session()
     album = get_album(session, album_name)
-    article_name = f"{album_name}.md"
+    # filter out non ascii, it is annoying in the terminal and causes
+    # other problems, like Emacs that won't open an image when there
+    # is an accent in the path
+    album_name = re.sub(r"[^a-zA-Z0-9_-]+", "-", album_name)
+    today = datetime.datetime.now().date().isoformat()
+    article_name = f"{today}-{album_name}.md"
     image_directory = f"{album_name}-images"
     if pathlib.Path(article_name).is_file():
         log.error("article already exists", file=article_name)
