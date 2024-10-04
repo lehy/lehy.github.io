@@ -38,4 +38,4 @@ est bien stable. Il est pour ma soeur Anne et sa famille.
  ![](/media/tabourets-de-No-l-images/AD9-pzk2o5igFqTOk1EO3A67je3KkTwVel7xUdv4shhoELOZUE66p_jlzedqq9m2TQBmz5fZRX_zgqEYQ2HCYGyFq7n4Gz4ExA%3Dw800-h800.jpg) 
 
 J'aime les tabourets : quand on s'assoit dessus, on sait qu'on a fait
-quelquechose qui existe vraiment (sinon on tomberait).
+quelque chose qui existe vraiment (sinon on tomberait).
