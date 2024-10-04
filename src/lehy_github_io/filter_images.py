@@ -49,7 +49,11 @@ def find_media_directory():
 
 
 def to_media(f):
-    return find_media_directory() / ".." / pathlib.Path(*f.parts[1:])
+    return (
+        (find_media_directory() / ".." / pathlib.Path(*f.parts[1:]))
+        .resolve()
+        .relative_to(pathlib.Path.cwd())
+    )
 
 
 def to_markdown_link(f):
@@ -92,12 +96,14 @@ def main(argv):
     images_in_base_dir = {
         to_markdown_link(x) for x in image_dir.iterdir() if x.is_file()
     }
-    images_to_delete = images_in_base_dir.difference(images)
+    images_to_delete = {
+        x for x in images_in_base_dir if to_markdown_link(x) not in set(images)
+    }
     # images_ok = images_in_base_dir.intersection(images)
     # log.info("ok images", images=images_ok)
     if images_to_delete:
-        log.info("there are unused images to delete")
-        print(" ".join([str(x) for x in images_to_delete]))
+        log.info("there are unused images to delete", n=len(images_to_delete))
+        print(" ".join([str(to_media(x)) for x in images_to_delete]))
     else:
         log.info("no images to delete")
 
