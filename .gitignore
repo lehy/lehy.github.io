@@ -4,3 +4,6 @@ _site
 .jekyll-metadata
 import_mastodon.py
 vendor
+*~
+*.old
+_secrets_/token.json
