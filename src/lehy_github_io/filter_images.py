@@ -62,6 +62,15 @@ def to_markdown_link(f):
     return pathlib.Path("/", *parts[i:]).resolve()
 
 
+def delete_files(files):
+    for f in files:
+        f.unlink()
+
+
+def to_md_links(images):
+    return set([to_markdown_link(x) for x in images])
+
+
 def main(argv):
     if len(argv) < 2:
         log.error("usage: filter_images.py <album.md>")
@@ -85,6 +94,7 @@ def main(argv):
     if not image_dir.is_dir():
         log.error("image directory does not exist", image_directory=image_dir)
         return
+    # XXX this is a mess!
     missing_images = {x for x in images if not is_image(to_media(x))}
     if missing_images:
         log.error(
@@ -93,19 +103,21 @@ def main(argv):
         )
         return
     log.info("all images in document were found on disk", n=len(images))
-    images_in_base_dir = {
-        to_markdown_link(x) for x in image_dir.iterdir() if x.is_file()
-    }
-    images_to_delete = {
-        x for x in images_in_base_dir if to_markdown_link(x) not in set(images)
-    }
+    images_in_base_dir = to_md_links({x for x in image_dir.iterdir() if x.is_file()})
+    images_to_delete = images_in_base_dir.difference(to_md_links(images))
+    # log.debug("images in document", images_in_document=to_md_links(images))
+    # log.debug("images in base dir", image_in_base_dir=images_in_base_dir)
     # images_ok = images_in_base_dir.intersection(images)
     # log.info("ok images", images=images_ok)
+    to_delete_in_media = [to_media(x) for x in images_to_delete]
     if images_to_delete:
         log.info("there are unused images to delete", n=len(images_to_delete))
-        print(" ".join([str(to_media(x)) for x in images_to_delete]))
+        response = input("delete (y/n) ? ")
+        if response.lower() in ["y", "o"]:
+            delete_files(to_delete_in_media)
     else:
-        log.info("no images to delete")
+        log.info("no image to delete")
+
 
 
 if __name__ == "__main__":
