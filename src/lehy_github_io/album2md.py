@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import os
 import pandas as pd
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.auth.transport.requests import AuthorizedSession
+import google.auth.exceptions
 import pathlib
 import datetime
 import urllib.parse
@@ -35,17 +35,22 @@ def get_creds(
         )
         sys.exit(1)
 
-    if os.path.exists(token_file):
+    if token_file.exists():
         creds = Credentials.from_authorized_user_file(token_file, scopes)
 
     # This is broken, when the creds expire we get invalid grant and
     # they are not refetched.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
+            try:
+                creds.refresh(Request())
+            except google.auth.exceptions.RefreshError:
+                # If the refresh fails, force a new authentication
+                token_file.unlink(missing_ok=True)  # Delete the old token
+                creds = None
+        if not creds:
             flow = InstalledAppFlow.from_client_secrets_file(client_secret_file, scopes)
-            creds = flow.run_local_server()
+            creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open(token_file, "w") as token:
             token.write(creds.to_json())
@@ -53,7 +58,9 @@ def get_creds(
 
 
 def get_session():
-    creds = get_creds(secrets_dir=pathlib.Path(sys.argv[0]).parent / ".." / ".." / "_secrets_")
+    creds = get_creds(
+        secrets_dir=pathlib.Path(sys.argv[0]).parent / ".." / ".." / "_secrets_"
+    )
     return AuthorizedSession(creds)
 
 
@@ -91,6 +98,14 @@ def list_albums():
     log.info("no album passed on command line, will list albums")
     for x in sorted(set(albs.keys()), key=lambda x: x.lower()):
         print("  ", x)
+
+
+def canon_rel_path(path : pathlib.Path):
+    return (
+        pathlib.Path(*path.parts)
+        .resolve(strict=False)
+        .relative_to(pathlib.Path().resolve())
+    )
 
 
 def get_album_by_id(sess, album_id):
@@ -156,7 +171,7 @@ def structure_album(df: pd.DataFrame):
 
 def image_file_name(directory, image_id, image_size):
     image_id = urllib.parse.quote(image_id, safe="")
-    return pathlib.Path(directory) / (image_id + image_size + ".jpg")
+    return canon_rel_path(pathlib.Path(directory) / (image_id + image_size + ".jpg"))
 
 
 def save_image(
@@ -218,12 +233,19 @@ def output_markdown(
         grouped = grouped[:max_days]
 
     media_directory = find_media_directory()
-    posts_directory = find_posts_directory()
 
     image_directory = pathlib.Path(image_directory)
     log.info("using image directory", image_directory=image_directory)
 
-    with open(posts_directory / md_file, "w") as out:
+    with open(md_file, "w") as out:
+        out.write("""
+        ---
+        layout: post
+        title: <titre>
+        ---
+        
+        """)
+
         for day in grouped:
             day_date = day["date"]
             day_date_s = day_date.strftime("%A %d %B %Y")
@@ -256,7 +278,8 @@ def output_article(album_name):
     # is an accent in the path
     album_name = re.sub(r"[^a-zA-Z0-9_-]+", "-", album_name)
     today = datetime.datetime.now().date().isoformat()
-    article_name = f"{today}-{album_name}.md"
+    posts_directory = find_posts_directory()
+    article_name = posts_directory /  f"{today}-{album_name}.md"
     image_directory = f"{album_name}-images"
     if pathlib.Path(article_name).is_file():
         log.error("article already exists", file=article_name)
