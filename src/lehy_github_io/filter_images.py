@@ -28,6 +28,15 @@ def is_image(x: str):
         return False
 
 
+def file_exists(x: str):
+    if str(x).endswith(".jpg"):
+        return is_image(x)
+    try:
+        return pathlib.Path(x).stat().st_size > 0
+    except FileNotFoundError:
+        return False
+
+
 def longest_common_prefix(seqs):
     min_len = min(len(x) for x in seqs)
     ref = seqs.pop()
@@ -95,7 +104,7 @@ def main(argv):
         log.error("image directory does not exist", image_directory=image_dir)
         return
     # XXX this is a mess!
-    missing_images = {x for x in images if not is_image(to_media(x))}
+    missing_images = {x for x in images if not file_exists(to_media(x))}
     if missing_images:
         log.error(
             "some images in Markdown are not found",
@@ -117,7 +126,6 @@ def main(argv):
             delete_files(to_delete_in_media)
     else:
         log.info("no image to delete")
-
 
 
 if __name__ == "__main__":
