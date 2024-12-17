@@ -21,12 +21,16 @@ Me voici sciant un tenon avec ma scie japonaise la plus fine (une
 dozuki, avec un dos qui la maintient bien droite). La technique est
 améliorable.
 
-![](/media/table-droite-images/AD9-pzk99cr1RZwA7lLcDBeMc7AkYRun7BG5DE8c9mHYbzB6P5QnzftSg5ga5Q97mO30ru6Gv05WRFIO4kZVLgnk0vl6UbajbQ-dv.mp4) 
+<video controls width="800">
+  <source src="/media/table-droite-images/AD9-pzk99cr1RZwA7lLcDBeMc7AkYRun7BG5DE8c9mHYbzB6P5QnzftSg5ga5Q97mO30ru6Gv05WRFIO4kZVLgnk0vl6UbajbQ-dv.mp4" type="video/mp4" />
+</video>
 
 Chacun des quatre pieds a deux mortaises qui se rejoignent, pour
 accueillir les tenons des tabliers.
 
-![](/media/table-droite-images/AD9-pznxmgJVix5d47bIGCoY2bIo0tVUKfMveKt1nGHJE088dJOS_2yC4Mu3HnD-crIvO5foO_fDLVq5ReqOTPD6tefu6w0WwA-dv.mp4) 
+<video controls width="800">
+  <source src="/media/table-droite-images/AD9-pznxmgJVix5d47bIGCoY2bIo0tVUKfMveKt1nGHJE088dJOS_2yC4Mu3HnD-crIvO5foO_fDLVq5ReqOTPD6tefu6w0WwA-dv.mp4" type="video/mp4" />
+</video>
 
 J'ai coupé les tabliers dans le bois que j'avais, sans réaliser que le
 fil était dans le mauvais sens (il devrait aller de gauche à droite,
