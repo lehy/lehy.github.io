@@ -57,7 +57,7 @@ feuille, et j'ai commencé à travailler les lobes et les nervures.
 ![](/media/feuille-d-acanthe-images/AD9-pzkHe019p6wJJZ3cW3ZeGexVQvMI0zMTf0LVc6hTxbdWZBrZHcpjnRjfmH33Na61H9wlXOV1sDqfHCnEvxurRJzZAUv4bg%3Dw800-h800.jpg)  
 
 ![](/media/feuille-d-acanthe-images/AD9-pzludicnRFnWlOdzcH_n49wmmDSLEE8PFE7MFr2KAHbe-Uwx9jV37NfWIORd3TaEmRUs-J4aQNqFVnUR5-SEEIzGNZ-Y4A%3Dw800-h800.jpg) 
-### 19:47
+
  ![](/media/feuille-d-acanthe-images/AD9-pzlnHHpXAjUP_hM8_8QMgs1fcpRJ_OP3sTAwsAj2GKBQLraJZ7F5ShM2df1TGGXLDFPXrYCrSyWb4Kq6hUFT32N0S_-P5g%3Dw800-h800.jpg) 
  
  Le deux janvier, Polpetta profitait du soleil.
