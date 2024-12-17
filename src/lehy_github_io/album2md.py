@@ -372,7 +372,10 @@ def output_markdown(
                     # while the image was saved to something like "../media/image_directory/12345.jpg"
                     image_file = make_media_file_name(image_file)
                     encoded_image_file = urllib.parse.quote(str(image_file), safe="/")
-                    out.write(f"![]({encoded_image_file}) ")
+                    if shot["mimeType"] == "image/jpeg":
+                        out.write(f"![]({encoded_image_file}) ")
+                    elif shot["mimeType"] == "video/mp4":
+                        out.write(f'<video controls width="100%"><source src="{encoded_image_file}" type="video/mp4" /></video>')
 
 
 def output_article(album_name):
