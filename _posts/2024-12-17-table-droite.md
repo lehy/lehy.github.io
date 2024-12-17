@@ -39,6 +39,11 @@ testant les assemblages, j'ai cassé au moins deux tenons, que j'ai dû
 réparer. J'ai creusé une mortaise dans le tablier, et coupé un faux
 tenon (avec le fil dans le bon sens) que j'y ai inséré.
 
+Le plateau est fixé au piètement avec des boutons : de petites pièces
+de bois visées dans le plateau, et insérées dans une rainure dans le
+tablier. Ca permet au plateau de varier en largeur selon l'humidité
+sans tout casser.
+
  ![](/media/table-droite-images/AD9-pzlNnlRoRpS5t-713bt49NiDULbwS3Kuh_NqS3eTShEEarhhFdKsxslc9MlhgLyssqpKiLHekIFzeLNzVZcOPt4EYRd5ng%3Dw800-h800.jpg)
  
  ![](/media/table-droite-images/AD9-pznJR2Yqoltz0FegHv_fqES97PtK-_5WhDZF4AGH-dIuyIpptG1ZnwvDd0ydsC-INzPFVLRk9V8gBE7OyGViG0eqb8cZcw%3Dw800-h800.jpg)
