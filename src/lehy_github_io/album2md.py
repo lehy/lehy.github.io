@@ -10,6 +10,7 @@ import pathlib
 import datetime
 import urllib.parse
 import structlog
+import textwrap
 import imageio.v3 as iio
 import sys
 import re
@@ -100,7 +101,7 @@ def list_albums():
         print("  ", x)
 
 
-def canon_rel_path(path : pathlib.Path):
+def canon_rel_path(path: pathlib.Path):
     return (
         pathlib.Path(*path.parts)
         .resolve(strict=False)
@@ -238,13 +239,15 @@ def output_markdown(
     log.info("using image directory", image_directory=image_directory)
 
     with open(md_file, "w") as out:
-        out.write("""
+        out.write(
+            textwrap.dedent("""
         ---
         layout: post
         title: <titre>
         ---
         
         """)
+        )
 
         for day in grouped:
             day_date = day["date"]
@@ -279,7 +282,7 @@ def output_article(album_name):
     album_name = re.sub(r"[^a-zA-Z0-9_-]+", "-", album_name)
     today = datetime.datetime.now().date().isoformat()
     posts_directory = find_posts_directory()
-    article_name = posts_directory /  f"{today}-{album_name}.md"
+    article_name = posts_directory / f"{today}-{album_name}.md"
     image_directory = f"{album_name}-images"
     if pathlib.Path(article_name).is_file():
         log.error("article already exists", file=article_name)
