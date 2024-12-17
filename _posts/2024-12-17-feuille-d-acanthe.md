@@ -1,5 +1,3 @@
-### 10:44
-![](/media/feuille-d-acanthe-images/AD9-pzkZcj2NyaEr9hbwOefdWiRjfndqiEUM7p_lKwlF2Qxy33ZW5HqZAd8Fngm4q_m5dJKQkkRQIIaXDScXzOro3oVWIp5FSA%3Dw800-h800.jpg) 
 ---
 layout: post
 title: Une feuille d'acanthe
