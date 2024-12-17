@@ -12,10 +12,62 @@ import urllib.parse
 import structlog
 import textwrap
 import imageio.v3 as iio
+from tqdm import tqdm
 import sys
 import re
 
 log = structlog.get_logger("album2md")
+
+MAX_DOWNLOAD_SIZE_BYTES = 10 * (2**20)
+
+
+def download(session, url, output_path, chunk_size_bytes=1024):
+    # Determine the size of the partially downloaded file, if it exists
+    downloaded_size = 0
+    output_path = pathlib.Path(output_path)
+    if output_path.exists():
+        downloaded_size = output_path.stat().st_size
+        log.info("resuming download", already_downloaded_bytes=downloaded_size)
+
+    headers = {"Range": f"bytes={downloaded_size}-"}
+
+    # Make the request with streaming enabled
+    with session.get(url, headers=headers, stream=True) as response:
+        # If the server does not support 'Range', start from the beginning
+        if response.status_code not in (206, 200):  # 206 means "Partial Content"
+            log.info(
+                "server does not support resuming, restarting download",
+                status_code=response.status_code,
+            )
+            downloaded_size = 0  # Reset download size
+            open(output_path, "wb").close()  # Truncate the file
+            headers.pop("Range")
+
+        # Get the total file size from the 'Content-Range' or 'Content-Length' header
+        total_size = int(response.headers.get("Content-Length", 0))
+        if "Content-Range" in response.headers:
+            total_size += downloaded_size
+        assert total_size >= downloaded_size, (total_size, downloaded_size)
+
+        if total_size > MAX_DOWNLOAD_SIZE_BYTES:
+            log.warning("not downloading big file", total_size=total_size)
+            return None
+
+        # Open the file in append mode to continue writing from the last position
+        with output_path.open("ab") as file, tqdm(
+            desc=f"downloading {output_path.name}",
+            total=total_size,
+            initial=downloaded_size,
+            unit="B",
+            unit_scale=True,
+            unit_divisor=1024,
+        ) as progress_bar:
+            # Read the response in chunks and write to the file
+            for chunk in response.iter_content(chunk_size=chunk_size_bytes):
+                if chunk:  # Only write non-empty chunks
+                    file.write(chunk)
+                    progress_bar.update(len(chunk))
+            return output_path
 
 
 def get_creds(
@@ -122,11 +174,13 @@ def get_album_by_id(sess, album_id):
 
 
 def album_to_pandas(alb):
+    # log.debug("album", alb=alb)
     alb = [
         dict(
             id=x["id"],
             baseUrl=x["baseUrl"],
             creationTime=x["mediaMetadata"]["creationTime"],
+            mimeType=x["mimeType"],
         )
         for x in alb
     ]
@@ -163,26 +217,43 @@ def structure_album(df: pd.DataFrame):
                 if current_shot is not None:
                     shots_data.append(current_shot)
                 current_shot = dict(creationTime=row.creationTime, shots=[])
-            current_shot["shots"].append(dict(id=row.id, baseUrl=row.baseUrl))
+            current_shot["shots"].append(
+                dict(id=row.id, baseUrl=row.baseUrl, mimeType=row.mimeType)
+            )
         shots_data.append(current_shot)
         day_data["scenes"] = shots_data
         ret.append(day_data)
     return ret
 
 
-def image_file_name(directory, image_id, image_size):
+class UnknownMimeType(Exception):
+    pass
+
+
+def image_file_name(directory, image_id, mime_type, image_size):
     image_id = urllib.parse.quote(image_id, safe="")
-    return canon_rel_path(pathlib.Path(directory) / (image_id + image_size + ".jpg"))
+    if mime_type == "video/mp4":
+        ext = "-dv.mp4"
+    elif mime_type == "image/jpeg":
+        ext = image_size + ".jpg"
+    else:
+        log.error("unknown mime type", mime_type=mime_type)
+        raise UnknownMimeType(mime_type)
+    return canon_rel_path(pathlib.Path(directory) / (image_id + ext))
 
 
-def save_image(
-    directory: pathlib.Path, image_id: str, image_size: str, contents: bytes
-) -> str:
-    image_file = image_file_name(directory, image_id, image_size)
-    directory.mkdir(parents=True, exist_ok=True)
-    with open(image_file, "wb") as f:
-        f.write(contents)
-    return image_file
+# def save_image(
+#     directory: pathlib.Path,
+#     image_id: str,
+#     mime_type: str,
+#     image_size: str,
+#     contents: bytes,
+# ) -> str:
+#     image_file = image_file_name(directory, image_id, mime_type, image_size)
+#     directory.mkdir(parents=True, exist_ok=True)
+#     with open(image_file, "wb") as f:
+#         f.write(contents)
+#     return image_file
 
 
 def is_image(x: str):
@@ -194,16 +265,43 @@ def is_image(x: str):
         return False
 
 
-def download_image(session, image_directory, image_id, url, image_size):
-    image_file = image_file_name(image_directory, image_id, image_size)
-    if is_image(image_file):
-        log.info("image already exists", image=str(image_file))
+def file_exists(x: str):
+    if str(x).endswith(".jpg"):
+        return is_image(x)
+    try:
+        return pathlib.Path(x).stat().st_size > 0
+    except FileNotFoundError:
+        return False
+
+
+def download_image(session, image_directory, image_id, url, mime_type, image_size):
+    image_file = image_file_name(image_directory, image_id, mime_type, image_size)
+    if file_exists(image_file):
+        log.info("file already exists", image=str(image_file))
         return image_file
-    log.info("downloading image", image=str(image_file))
-    image = session.get(url + image_size)
-    assert image.status_code == 200, (image.status_code, image.url)
-    saved_image_file = save_image(image_directory, image_id, image_size, image.content)
-    assert saved_image_file == image_file, (saved_image_file, image_file)
+    image_file_temp = image_file.with_name(image_file.name + ".temp")
+    log.info(
+        "downloading image/video",
+        image_temp=str(image_file_temp),
+        image_file=image_file,
+    )
+    if mime_type == "video/mp4":
+        url = url + "=dv"
+        # image = session.get(url + '=dv')
+    elif mime_type == "image/jpeg":
+        url = url + image_size
+        # image = session.get(url + image_size)
+    else:
+        assert False, mime_type
+    temp_file = download(session, url, image_file_temp)
+    if temp_file is None:
+        return None
+    temp_file.rename(image_file)
+    # assert image.status_code == 200, (image.status_code, image.url)
+    # saved_image_file = save_image(
+    #     image_directory, image_id, mime_type, image_size, image.content
+    # )
+    # assert saved_image_file == image_file, (saved_image_file, image_file)
     return image_file
 
 
@@ -264,8 +362,12 @@ def output_markdown(
                         media_directory / image_directory,
                         shot["id"],
                         shot["baseUrl"],
+                        shot["mimeType"],
                         image_size,
                     )
+                    if image_file is None:
+                        out.write(f"<!-- skipped big image {shot['id']}--!>\n")
+                        continue
                     # The link should point to /media/image_directory/12345.jpg
                     # while the image was saved to something like "../media/image_directory/12345.jpg"
                     image_file = make_media_file_name(image_file)

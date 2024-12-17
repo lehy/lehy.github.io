@@ -10,6 +10,7 @@ dependencies = [
     "structlog>=24.4.0",
     "imageio>=2.35.1",
     "pandas>=2.2.2",
+    "tqdm>=4.67.1",
 ]
 
 [build-system]
