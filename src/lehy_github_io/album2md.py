@@ -197,7 +197,7 @@ def get_album(sess, album_name):
         log.error(
             "could not find album name",
             album_name=album_name,
-            known_album_names=set(albums.keys()),
+            known_album_names=sorted(set(albums.keys())),
         )
         raise
     return album_to_pandas(get_album_by_id(sess, album_id))
@@ -274,7 +274,10 @@ def file_exists(x: str):
         return False
 
 
-def download_image(session, image_directory, image_id, url, mime_type, image_size):
+def download_image(
+    session, image_directory: pathlib.Path, image_id, url, mime_type, image_size
+):
+    image_directory.mkdir(parents=True, exist_ok=True)
     image_file = image_file_name(image_directory, image_id, mime_type, image_size)
     if file_exists(image_file):
         log.info("file already exists", image=str(image_file))
@@ -375,7 +378,9 @@ def output_markdown(
                     if shot["mimeType"] == "image/jpeg":
                         out.write(f"![]({encoded_image_file}) ")
                     elif shot["mimeType"] == "video/mp4":
-                        out.write(f'<video controls width="100%"><source src="{encoded_image_file}" type="video/mp4" /></video>')
+                        out.write(
+                            f'<video controls width="100%"><source src="{encoded_image_file}" type="video/mp4" /></video>'
+                        )
 
 
 def output_article(album_name):
