@@ -117,10 +117,7 @@ techniques pour manier l'herminette.
 
 Le résultat est correct, mais j'ai atteint la profondeur des chevilles
 qui renforcent l'assemblage du siège. Ma tentative de masquage (avec
-de la colle et de la sciure) a été un échec. J'ai coupé le bout des
-pieds pour assurer que le siège est ne penche ni à gauche ni à droite,
-mais un peu (deux doigts) vers l'arrière ; que la hauteur est bonne ;
-et que les pieds sont à plat au sol.
+de la colle et de la sciure) a été un échec. 
 
 ![](/media/Premi-re-chaise-barreaux-images/AD9-pznJn8FEXe0x3Vfn8-SImaHt_RBSENGB5vljUe4D_WzU4k6SEUDocKycsnvrFOx028glMhtvC6WrOoJHZq3hS487wFyBUg%3Dw800-h800.jpg) 
 
@@ -137,6 +134,10 @@ haut, et un coin est inséré pour les bloquer dans leur mortaise.
 ![](/media/Premi-re-chaise-barreaux-images/AD9-pzlpnGQ8Ld9k_JMtOLRiY15OjEAx2NvqyqhTN2ecM-Ty21N5pmmgwIOD-b7zmVplFLW-SqIyOMzjVqhSKe7pkpbzJ5Neuw%3Dw800-h800.jpg) 
 
 ![](/media/Premi-re-chaise-barreaux-images/AD9-pzl5Yyif7OtgKr1uTde4VAibc6E3EU2lBqN5q41kWKufICa3AGQdczzkAWogvYAJrvrwaiNL4yRDa7qWG9edipNlOK2hjw%3Dw800-h800.jpg) 
+
+J'ai coupé le bout des pieds pour assurer que le siège est ne penche
+ni à gauche ni à droite, mais un peu (deux doigts) vers l'arrière ;
+que la hauteur est bonne ; et que les pieds sont à plat au sol.
 
 Ce dimanche 24 septembre, nous sommes allés à la Coupe Icare. Des
 voltigeurs dessinaient dans le ciel.
