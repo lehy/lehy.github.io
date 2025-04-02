@@ -58,7 +58,6 @@ bras et le siège.
 En Août en Italie, nous avons fabriqué une rampe de skate avec Achille (j'en
 parlerai dans un autre billet).
 
-3
 ![](/media/Premi-re-chaise-barreaux-images/AD9-pzmxqSHZ5gmnBmsQRHds8rTAxUPeS-aKmVw7nh5Cvz3kMCTPdglnVk--I6K6IGTXZs5hdigLCeURDmhLoTY8o5CzKYaN_g%3Dw800-h800.jpg) 
 
 ![](/media/Premi-re-chaise-barreaux-images/AD9-pzlBNTMKO198KU2LR7yomcgO9AMvEofUUfm8EY1pAEog50oDK-qOu3Jn3HOqxT_ohZpOJvzFJDjhmVBWXoPBxYWyEawr1w%3Dw800-h800.jpg) 
