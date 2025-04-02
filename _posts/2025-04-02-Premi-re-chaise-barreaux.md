@@ -25,7 +25,8 @@ chevilles, bloquées par des piques à brochettes en bois.
 ![](/media/Premi-re-chaise-barreaux-images/AD9-pzm2FRtLPOG51jvMPn2eO0gA2kpgr3b03g8SRP5MHZf_4X9_FVOpiTLGskGJbQH0oMo2ZojKgHeLl15_4FJgydnCg3grPw%3Dw800-h800.jpg) 
 
 J'ai corroyé le siège, et découpé un U, à la scie, au ciseau, à la
-wastringue, au rabot, à la râpe et à la lime (j'ai tout essayé).
+plane, à la wastringue, au rabot, à la râpe et à la lime (j'ai tout
+essayé).
 
 ![](/media/Premi-re-chaise-barreaux-images/AD9-pznLP_8dkVDQDxcMu8UCyXMaG8Tj_pR5gX-A3cyJ3wqtDK73xYEAALcPzCeqnjzd0HlZg2nKdCTH5NDelnCdnbNio2THIw%3Dw800-h800.jpg) 
 
